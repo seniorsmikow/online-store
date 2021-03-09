@@ -5,7 +5,7 @@ const Other = () => {
     return (
         <div>
             Этот компонент создан только с целью тестирования GitExtensions и позднее будет удалён
-            <span></span>
+            <span>Some changes for experimental branch in git</span>
         </div>
     )
 }
