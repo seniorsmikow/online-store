@@ -1,0 +1,74 @@
+@import '../../styles/button';
+
+.root {
+    margin: 30px;
+    width: 250px;
+    height: 300px;
+    overflow: hidden;
+    box-sizing: border-box;
+    color: white;
+    display: flex;
+    -webkit-box-shadow: 1px 1px 10px 0px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow:    1px 1px 10px 0px rgba(50, 50, 50, 0.5);
+    box-shadow:         1px 1px 10px 0px rgba(50, 50, 50, 0.5);
+    transition: all .3s ease-in-out;
+}
+
+.card__wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    transition: all .5s ease-in-out;
+    .card_photo img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        transition: all .5s ease-in;
+    }
+    .info_text {
+        position: absolute;
+        bottom: -150px;
+        width: 100%;
+        height: 150px;
+        background-color: rgba(24, 108, 204, 0.7);
+        color: rgb(255, 255, 255);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        overflow: hidden;
+        transition: all .3s ease-in;
+    }
+}
+
+.card__wrapper:hover .info_text {
+    bottom: 0px;
+}
+
+.card__wrapper:hover .card_photo img{
+    transform: scale(1.4);
+}
+
+.button_info {
+    @extend .button;
+    margin-top: 20px;
+    background-color: #c5c5c5;
+    font-size: 10px;
+    &:active {
+        background-color: #5f5f5f;
+    }
+}
+
+.button_addBasket {
+    @extend .button;
+    margin-top: 20px;
+    background-color: #5474a5;
+    font-size: 10px;
+    color: white;
+    font-weight: 700;
+    &:active {
+        background-color: #0050a2;
+    }
+}

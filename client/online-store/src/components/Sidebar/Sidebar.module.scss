@@ -1,0 +1,11 @@
+@import '../../styles/_variables';
+
+.root {
+    min-width: 300px;
+    height: 100vh;
+    background-color: $side-bar-color;
+    padding-top: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

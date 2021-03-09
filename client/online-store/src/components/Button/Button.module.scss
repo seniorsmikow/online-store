@@ -1,0 +1,18 @@
+@import '../../styles/_variables';
+
+.root {
+    min-width: 80px;
+    min-height: 30px;
+    border-radius: 4px;
+    -webkit-box-shadow: 3px 3px 8px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    3px 3px 8px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         3px 3px 8px 0px rgba(50, 50, 50, 0.75);
+    background-color: $red-color;
+    color: $button-text-color;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    &:active {
+        background-color: $dark-red-color;
+    }
+}
