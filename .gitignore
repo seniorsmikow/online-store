@@ -1,3 +1,4 @@
 /client/node_modules
 /client/online-store/node_modules
 /server/static
+/server/node_modules
