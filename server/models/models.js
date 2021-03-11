@@ -75,12 +75,6 @@ BasketDevice.belongsTo(Device);
 Device.hasMany(DeviceInfo);
 DeviceInfo.belongsTo(Device);
 
-Type.belongsToMany(Brand);
-Brand.belongsToMany(Type);
-
-Device.hasMany(DeviceInfo);
-DeviceInfo.belongsTo(Device);
-
 Type.belongsToMany(Brand, {through: TypeBrand}); // при связи многие ко многим нужен второй параметр из спец типа 
 Brand.belongsToMany(Type, {through: TypeBrand});
 
