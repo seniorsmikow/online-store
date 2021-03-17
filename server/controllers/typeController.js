@@ -10,7 +10,8 @@ class TypeController {
     }
 
     async getAllTypes(req, res) {
-
+        const types = await Type.findAll();
+        return res.json(types);
     }
 }
 
