@@ -72,7 +72,7 @@ Rating.belongsTo(Device);
 Device.hasMany(BasketDevice);
 BasketDevice.belongsTo(Device);
 
-Device.hasMany(DeviceInfo);
+Device.hasMany(DeviceInfo, {as: 'info'}); // это info появляется в DeviceController / createDevice
 DeviceInfo.belongsTo(Device);
 
 Type.belongsToMany(Brand, {through: TypeBrand}); // при связи многие ко многим нужен второй параметр из спец типа 
