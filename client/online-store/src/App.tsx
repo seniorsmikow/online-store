@@ -1,20 +1,27 @@
-import React from 'react';
-import './App.scss';
+import React from 'react'
+import './App.scss'
+import {Route, HashRouter} from 'react-router-dom'
 import Header from './components/Header/Header'
 import Sidebar from './components/Sidebar/Sidebar';
-import Smartphone from './pages/Products/Smartphone'
-import Brands from './components/brands/brands'
+import Smartphones from './pages/Products/Smartphones'
+import Watches from './pages/Products/Watches'
+import VideoGames from './pages/Products/Videogames'
+
 
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Sidebar />
-      {/* <Smartphone /> */}
-      <Brands />
+      <HashRouter>
+        <Header />
+        <Sidebar />
+        
+        <Route path='/smartphones' render={ () => <Smartphones /> } />
+        <Route path='/watches' render={ () => <Watches /> } />
+        <Route path='/videogames' render={ () => <VideoGames /> } />
+      </HashRouter>
     </div>
   );
 }
 
-export default App;
+export default App
