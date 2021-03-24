@@ -1,4 +1,4 @@
-import {getAllBrands} from '../axios/axios'
+//import {getAllBrands} from '../axios/axios'
 import { InferActionsTypes, BaseThunkType } from './store'
 import {brandsType} from '../types/types'
 
@@ -24,18 +24,15 @@ const brandsReducer = (state = initialState, action: ActionsTypes): InitialState
 };
 
 export const actions = {
-    fetchBrands: (payload: any) => ({type: 'brand/FETCH_ALL_BRANDS', payload} as const),
+    fetchBrands: (payload: Array<brandsType>) => ({type: 'brand/FETCH_ALL_BRANDS', payload} as const),
 }
 
-export const fetchAllBrands = (): ThunkType => {
-
-    return async (dispatch) => {
-
-        let response = await getAllBrands();
-        dispatch(actions.fetchBrands(response.data));
-    };
-
-};
+// export const fetchAllBrands = (): ThunkType => {
+//     return async (dispatch) => {
+//         let response = await getAllBrands();
+//         dispatch(actions.fetchBrands(response.data));
+//     };
+// };
 
 type ActionsTypes = InferActionsTypes<typeof actions>
 type ThunkType = BaseThunkType<ActionsTypes>

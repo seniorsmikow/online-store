@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import SmallCard from '../../components/SmallCard/SmallCard'
 import Loader from '../../components/Loader/Loader'
-//import styles from './Smartphone.module.scss'
+import styles from './Smartphones.module.scss'
 
 
 
 const Smartphones = () => {
     return (
-        <div>
+        <div className={styles.root}>
             smartphones
         </div>
     )

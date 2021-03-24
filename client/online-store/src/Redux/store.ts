@@ -1,10 +1,12 @@
-import {Action, createStore, combineReducers, applyMiddleware, compose} from 'redux';
-import thunkMiddleware, {ThunkAction} from 'redux-thunk';
-import brandsReducer from './brands';
+import {Action, createStore, combineReducers, applyMiddleware, compose} from 'redux'
+import thunkMiddleware, {ThunkAction} from 'redux-thunk'
+import brandsReducer from './brands'
+import usersReducer from './users'
 
 
 let rootReducer = combineReducers({
-    brands: brandsReducer
+    brands: brandsReducer,
+    user: usersReducer
 });
 
 type RootState = typeof rootReducer

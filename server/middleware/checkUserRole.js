@@ -15,14 +15,13 @@ module.exports = function (role) {
                 return res.status(401).json({message: "Пользователь не авторизован"});
             }
     
-            const decoded = jwt.verify(token, 'some_string');
+            const decoded = jwt.verify(token, process.env.SEKRET_KEY);
 
             if(decoded.role !== role) {
                 return res.status(403).json({message: "Нет доступа"});
             }
     
             res.user = decoded;
-    
             next();
     
         } catch (error) {

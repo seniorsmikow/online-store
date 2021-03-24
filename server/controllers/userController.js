@@ -41,7 +41,7 @@ class UserController {
             return next(ApiError.internal("Неверный пароль"));
         }
 
-        const token = generateGWT(user.email, user.password, user.role);
+        const token = generateGWT(user.id, user.email, user.role);
         return res.json({token});
     }
 
