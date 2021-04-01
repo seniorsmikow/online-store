@@ -2,11 +2,15 @@ import {Action, createStore, combineReducers, applyMiddleware, compose} from 're
 import thunkMiddleware, {ThunkAction} from 'redux-thunk'
 import brandsReducer from './brands'
 import usersReducer from './users'
+import componentsReducer from './components'
+import typesDevicesReducer from './typesDevices'
 
 
 let rootReducer = combineReducers({
     brands: brandsReducer,
-    user: usersReducer
+    user: usersReducer,
+    components: componentsReducer,
+    typesDevices: typesDevicesReducer
 });
 
 type RootState = typeof rootReducer

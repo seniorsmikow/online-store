@@ -1,19 +1,15 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import styles from './Main.module.scss'
 import {connect} from 'react-redux'
-import {userRegistration, userLogin} from '../../Redux/users'
-import LoginForm from '../Forms/Login/LoginForm'
+import {userRegistration} from '../../Redux/users'
 import RegistrationForm from '../Forms/Registration/RegistrationForm'
 
 
 const Main = props => {
 
-    console.log(process.env.REACT_APP_API_URL)
-
     return (
         <div className={styles.root}>
             Main page
-            <LoginForm userLogin={props.userLogin}/>
             <RegistrationForm 
                 isReg={props.isReg}
                 userRegistration={props.userRegistration}
@@ -24,8 +20,10 @@ const Main = props => {
 
 const mapStateToProps = (state) => {
     return {
-        isReg: state.user.isReg
+        isReg: state.user.isReg,
+        error: state.user.error,
+        user: state.user.user
     }
 }
 
-export default connect(mapStateToProps, {userRegistration, userLogin})(Main)
+export default connect(mapStateToProps, {userRegistration})(Main)

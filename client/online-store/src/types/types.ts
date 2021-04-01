@@ -9,3 +9,8 @@ export type userType = {
     password: string,
     role: string
 }
+
+export type typeOfDevice = {
+    id: number,
+    name: string
+}

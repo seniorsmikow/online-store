@@ -6,9 +6,9 @@ const generateGWT = require('./helpers');
 
 class UserController {
     async registration(req, res, next) {
-        const {email, password, role} = req.body;
+        const {email, password, role, name} = req.body;
 
-        if(!email || !password) {
+        if(!email || !password || !name) {
             return next(ApiError.badRequest("Отсутствуют данные для регистрации"));
         }
 
@@ -19,9 +19,9 @@ class UserController {
 
         const hashPassword = await bcrypt.hash(password, 5); // 5 кол-во кэширований пароля
 
-        const user = await User.create({email, role, password: hashPassword});
+        const user = await User.create({email, role, password: hashPassword, name});
         const basket = await Basket.create({userId: user.id});
-        const token = generateGWT(user.id, user.email, user.role);
+        const token = generateGWT(user.id, user.email, user.role, user.name);
 
         return res.json({token});
     }
@@ -41,13 +41,13 @@ class UserController {
             return next(ApiError.internal("Неверный пароль"));
         }
 
-        const token = generateGWT(user.id, user.email, user.role);
+        const token = generateGWT(user.id, user.email, user.role, user.name);
         return res.json({token});
     }
 
     async isLoginCheck(req, res, next) {
         
-        const token = generateGWT(req.user.id, req.user.email, req.user.role);
+        const token = generateGWT(req.user.id, req.user.email, req.user.role, req.user.name);
         return res.json({token});
     }
 }

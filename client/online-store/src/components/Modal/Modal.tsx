@@ -1,26 +1,23 @@
-import React from 'react';
+import React from 'react'
 import styles from './Modal.module.scss'
 
 type PropsType = {
     isOpen: boolean
+    setOpen: (open: boolean) => void
 }
 
 
-const Modal: React.FC<PropsType> = ({isOpen}) => {
+const Modal: React.FC<PropsType> = ({isOpen, setOpen, children}) => {
 
-    const [show, setShow] = React.useState(isOpen)
-
-    console.log(show)
-
-    const handleClose = () => {
-        setShow(!show)
-        console.log(show)
+    const toggleModalWindow = () => {
+        setOpen(!isOpen)
     }
 
     return (
-        <div className={show ? styles.modal_open : styles.modal_close}>
-            modal
-            <button onClick={handleClose}>close</button>
+        <div className={isOpen ? styles.modal__root: styles.modal__close} onClick={toggleModalWindow}>
+            <div className={styles.modal__content} onClick={e => e.stopPropagation()}>
+                {children}
+            </div>
         </div>
     )
 }

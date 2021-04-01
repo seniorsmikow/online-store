@@ -1,5 +1,6 @@
 /client/node_modules
 /client/online-store/node_modules
+/client/online-store/.env
 /server/static
 /server/node_modules
 /server/.env

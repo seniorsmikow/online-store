@@ -3,13 +3,14 @@ import { Formik, Field, Form, FormikHelpers } from 'formik'
 import styles from './RegistrationForm.module.scss'
 
 interface Values {
-  email: string;
+  email: string
   password: string
+  name: string
 }
 
 type PropsType = {
     isReg: boolean
-    userRegistration: (email: string, password: string) => void
+    userRegistration: (email: string, password: string, name: string) => void
 }
 
 const RegistrationForm: React.FC<PropsType> = props => {
@@ -19,13 +20,14 @@ const RegistrationForm: React.FC<PropsType> = props => {
       <Formik
         initialValues={{
           email: '',
-          password: ''
+          password: '',
+          name: ''
         }}
         onSubmit={(
           values: Values,
           { setSubmitting }: FormikHelpers<Values>
         ) => {
-          props.userRegistration(values.email, values.password);
+          props.userRegistration(values.email, values.password, values.name);
         }}
       >
         <Form className={styles.form}>
@@ -34,6 +36,9 @@ const RegistrationForm: React.FC<PropsType> = props => {
 
           <label htmlFor="password">Password</label>
           <Field id="password" name="password" placeholder="password" type="password"/>
+
+          <label htmlFor="name">Name</label>
+          <Field id="name" name="name" placeholder="name"/>
 
           <button type="submit">Submit</button>
         </Form>
