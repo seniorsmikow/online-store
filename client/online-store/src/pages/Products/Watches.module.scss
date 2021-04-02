@@ -1,3 +1,7 @@
 .root {
-    margin-top: 100px;
+    width: 100%;
+    padding: 90px;
+    display: flex;
+    flex-wrap: wrap;
+	overflow-y: hidden;
 }

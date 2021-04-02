@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
     return {
         isReg: state.user.isReg,
         error: state.user.error,
-        user: state.user.user
+        user: state.user.user,
     }
 }
 

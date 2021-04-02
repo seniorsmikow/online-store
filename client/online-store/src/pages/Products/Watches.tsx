@@ -1,13 +1,41 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import {connect} from 'react-redux'
+import {fetchAllDevices} from '../../Redux/devices'
+import {AppStateType} from '../../Redux/store'
+import {devicesType} from '../../types/types'
+import SmallCard from '../../components/SmallCard/SmallCard'
 import styles from './Watches.module.scss'
 
-
-const Watches = () => {
-    return (
-        <div className={styles.root}>
-            Watches page
-        </div>
-    )
+type PropsType = {
+    //devices: Array<devicesType>
+    devices: any
+    fetchAllDevices: () => void
 }
 
-export default Watches
+const Watches: React.FC<PropsType> = props => {
+
+    const devices = props.devices.filter((el: any) => el.typeId === 2)
+    const fetchAllDevices = props.fetchAllDevices
+
+    useEffect(() => {
+        fetchAllDevices()
+    }, [devices, fetchAllDevices])
+
+
+    return (
+        <div className={styles.root}>
+            {
+                devices.map((el: any) => <SmallCard key={el.name} title={el.name} url={ "https://bigap.ru/image/cache/data/Products/Bracelet%20Apple/MTMX2ZM_1-330x330.jpg"}/>)
+            }
+        </div>
+    )
+    
+}
+
+const mapStateToProps = (state: AppStateType) => {
+    return {
+        devices: state.devices.devices
+    }
+}
+
+export default connect(mapStateToProps, {fetchAllDevices})(Watches)

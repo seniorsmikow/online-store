@@ -4,13 +4,15 @@ import brandsReducer from './brands'
 import usersReducer from './users'
 import componentsReducer from './components'
 import typesDevicesReducer from './typesDevices'
+import devicesReducer from './devices'
 
 
 let rootReducer = combineReducers({
     brands: brandsReducer,
     user: usersReducer,
     components: componentsReducer,
-    typesDevices: typesDevicesReducer
+    typesDevices: typesDevicesReducer,
+    devices: devicesReducer
 });
 
 type RootState = typeof rootReducer
