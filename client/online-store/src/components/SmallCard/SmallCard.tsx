@@ -2,11 +2,11 @@ import React from 'react'
 import styles from './SmallCard.module.scss'
 
 type PropsType = {
-    url?: string
+    src?: string
     title: string
 }
 
-const SmallCard: React.FC<PropsType> = ({url, title}) => {
+const SmallCard: React.FC<PropsType> = ({src, title}) => {
 
     return (
         <>
@@ -14,7 +14,7 @@ const SmallCard: React.FC<PropsType> = ({url, title}) => {
         <div className={styles.root}>
             <div className={styles.card__wrapper}>
                 <div className={styles.card_photo}>
-                    <img src={url} alt="photo_watch" />
+                    <img src={src} alt="photo_watch" />
                 </div>
                 <div className={styles.info_text}>
                     {title}

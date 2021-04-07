@@ -33,6 +33,10 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
             return {
                 ...state, isAuth: false, isReg: false, user: {}
             }
+        case 'users/CHECK_AUTH':
+            return {
+                ...state, isAuth: true
+            }
         default:
             return state
     }
@@ -43,6 +47,7 @@ export const actions = {
     logout: () => ({type: 'users/LOGOUT'} as const),
     registration: (payload: boolean) => ({type: 'users/REGISTRATION', payload} as const),
     getError: (payload: string | null) => ({type: 'users/GET_ERROR', payload} as const),
+    check: () => ({type: 'users/CHECK_AUTH'} as const)
 }
 
 export const userLogin = (email: string, password: string): ThunkType => {
@@ -71,6 +76,14 @@ export const userRegistration = (email: string, password: string, name: string):
     }
 }
 
+export const checkUserAuth = (): ThunkType => {
+    return async(dispatch) => {
+        let response = await checkAPI()
+        debugger
+        dispatch(actions.check())
+    }
+}
+ 
 type ActionsTypes = InferActionsTypes<typeof actions>
 type ThunkType = BaseThunkType<ActionsTypes>
 

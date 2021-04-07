@@ -4,6 +4,7 @@ import {fetchAllDevices} from '../../Redux/devices'
 import {AppStateType} from '../../Redux/store'
 import {devicesType} from '../../types/types'
 import SmallCard from '../../components/SmallCard/SmallCard'
+import Pagination from '../../components/Pagination/Pagination'
 import styles from './Smartphones.module.scss'
 
 type PropsType = {
@@ -12,7 +13,7 @@ type PropsType = {
     fetchAllDevices: () => void
 }
 
-const Smartphones: React.FC<PropsType> = props => {
+const Smartphones: React.FC<PropsType> = React.memo(props => {
 
     const devices = props.devices.filter((el: any) => el.typeId === 1)
     const fetchAllDevices = props.fetchAllDevices
@@ -24,13 +25,23 @@ const Smartphones: React.FC<PropsType> = props => {
 
     return (
         <div className={styles.root}>
-            {
-                devices.map((el: any) => <SmallCard key={el.name} title={el.name} url={ "https://playgame34.ru/wp-content/uploads/2019/10/фиолет.jpg"}/>)
-            }
+            <div className={styles.smartphones__pagination}>
+                <Pagination /> 
+            </div>
+            <div className={styles.smartphones__wrapper}>
+                {
+                    devices.map((el: any) => 
+                    <div className={styles.card__wrapper} key={el.name}>
+                        <SmallCard key={el.name} title={el.name} src={process.env.REACT_APP_API_URL + el.img}/>
+                    </div>
+                    
+                    )
+                }
+            </div>
         </div>
     )
     
-}
+})
 
 const mapStateToProps = (state: AppStateType) => {
     return {

@@ -1,0 +1,36 @@
+.root {
+    display: flex;
+    width: 300px;
+    height: 20px;
+}
+
+.pagination__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+}
+
+.pagination__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #3e637b;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all .1s ease-in;
+    &:active {
+        background-color: #3e637b;
+        transform: scale(1.2);
+    }
+}
+
+.icon {
+    transition: all .1s ease-in;
+    cursor: pointer;
+    &:active {
+        transform: scale(1.3);
+    }
+}

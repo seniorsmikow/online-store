@@ -50,6 +50,7 @@ class UserController {
         const token = generateGWT(req.user.id, req.user.email, req.user.role, req.user.name);
         return res.json({token});
     }
+
 }
 
 module.exports = new UserController();

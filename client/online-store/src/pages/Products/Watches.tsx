@@ -4,7 +4,8 @@ import {fetchAllDevices} from '../../Redux/devices'
 import {AppStateType} from '../../Redux/store'
 import {devicesType} from '../../types/types'
 import SmallCard from '../../components/SmallCard/SmallCard'
-import styles from './Watches.module.scss'
+import Pagination from '../../components/Pagination/Pagination'
+import styles from './Smartphones.module.scss'
 
 type PropsType = {
     //devices: Array<devicesType>
@@ -12,7 +13,7 @@ type PropsType = {
     fetchAllDevices: () => void
 }
 
-const Watches: React.FC<PropsType> = props => {
+const Watches: React.FC<PropsType> = React.memo(props => {
 
     const devices = props.devices.filter((el: any) => el.typeId === 2)
     const fetchAllDevices = props.fetchAllDevices
@@ -21,16 +22,29 @@ const Watches: React.FC<PropsType> = props => {
         fetchAllDevices()
     }, [devices, fetchAllDevices])
 
+    debugger
+    console.log(process.env.REACT_APP_API_URL)
 
     return (
         <div className={styles.root}>
-            {
-                devices.map((el: any) => <SmallCard key={el.name} title={el.name} url={ "https://bigap.ru/image/cache/data/Products/Bracelet%20Apple/MTMX2ZM_1-330x330.jpg"}/>)
-            }
+            <div className={styles.smartphones__pagination}>
+                <Pagination /> 
+            </div>
+            <div className={styles.smartphones__wrapper}>
+                {
+                    devices.map((el: any) => 
+                    <div className={styles.card__wrapper} key={el.name}>
+                        {/* <SmallCard key={el.name} title={el.name} src={process.env.REACT_APP_API_URL + el.img}/> */}
+                        <img src={process.env.REACT_APP_API_URL + '/device' + el.img}/>
+                    </div>
+                    
+                    )
+                }
+            </div>
         </div>
     )
     
-}
+})
 
 const mapStateToProps = (state: AppStateType) => {
     return {
