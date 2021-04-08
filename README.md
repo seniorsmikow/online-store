@@ -1,7 +1,7 @@
 <h1>Project "Online-store" (интернет-магазин)</h1>
 <hr>
 
-![online-store](https://user-images.githubusercontent.com/47942690/110293431-9ea60300-7fff-11eb-8476-94010543965f.jpg)
+![scrin_store](https://user-images.githubusercontent.com/47942690/114063924-ca880300-98a1-11eb-9b00-fa1d4cee428f.jpg)
 
 <i>Скриншот приложения будет изменяться по ходу изменения самого проекта!</i>
 

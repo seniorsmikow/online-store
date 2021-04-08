@@ -8,6 +8,8 @@ type PropsType = {
 
 const SmallCard: React.FC<PropsType> = ({src, title}) => {
 
+    debugger
+
     return (
         <>
         
