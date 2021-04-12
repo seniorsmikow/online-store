@@ -1,15 +1,17 @@
 import { InferActionsTypes, BaseThunkType } from './store'
-import {fetchAllDevicesAPI, createDeviceAPI} from '../axios/devicesAPI'
+import {fetchAllDevicesAPI, createDeviceAPI, fetchOneDeviceAPI} from '../axios/devicesAPI'
 import {devicesType} from '../types/types'
 
 type InitialStateType = {
     isLoad: boolean
     devices: Array<devicesType>
+    device: any
 }
 
 const initialState: InitialStateType = {
     isLoad: false,
-    devices: []
+    devices: [],
+    device: null
 }
 
 const devicesReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
@@ -18,6 +20,10 @@ const devicesReducer = (state = initialState, action: ActionsTypes): InitialStat
             return {
                 ...state, devices: [...action.payload]
             }
+        case 'devices/FETCH_ONE_DEVICE':
+            return {
+                ...state, device: action.payload
+            }
         default:
             return state
     }
@@ -25,7 +31,8 @@ const devicesReducer = (state = initialState, action: ActionsTypes): InitialStat
 
 const actions = {
     fetchALLDevicesAction: (payload: Array<devicesType>) => ({type: 'devices/FETCH_ALL_DEVICES', payload} as const),
-    createDeviceAction: (payload: devicesType) => ({type: 'devices/CREATE_DEVICE', payload} as const)
+    createDeviceAction: (payload: devicesType) => ({type: 'devices/CREATE_DEVICE', payload} as const),
+    fetchOneDeviceAction: (payload: any) => ({type: 'devices/FETCH_ONE_DEVICE', payload} as const)
 }
 
 export const fetchAllDevices = (): ThunkType => {
@@ -36,13 +43,16 @@ export const fetchAllDevices = (): ThunkType => {
 }
 
 export const createDevice = (payload: devicesType): ThunkType => {
-
-    debugger
     return async(dispatch) => {
         let response = await createDeviceAPI(payload)
-
-        debugger
         dispatch(actions.createDeviceAction(response))
+    }
+}
+
+export const fetchOneDevice = (payload: string): ThunkType => {
+    return async(dispatch) => {
+        let response = await fetchOneDeviceAPI(payload)
+        dispatch(actions.fetchOneDeviceAction(response))
     }
 }
 

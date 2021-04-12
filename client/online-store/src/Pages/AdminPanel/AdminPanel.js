@@ -1,62 +1,63 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {AppStateType} from '../../Redux/store'
 import {connect} from 'react-redux'
 import {createDevice} from '../../Redux/devices'
+import {createBrand, fetchAllBrands} from '../../Redux/brands'
+import {createType, fetchTypesDevices} from '../../Redux/typesDevices'
 import { Formik, Field, Form, FormikHelpers } from 'formik'
 import styles from './AdminPanel.module.scss'
-
-// interface Values {
-//     name: string;
-//     price: number,
-//     img: string,
-//     typeId: number,
-//     brandId: number
-// }  
-
-// type PropsType = {
-//     devices: any
-//     createDevice: () => void
-// }
-
+import { fetchAllBrandsAPI } from '../../axios/brandsAPI'
 
 const AdminPanel= props => {
 
+    const fetchTypesDevices = props.fetchTypesDevices;
+    const fetchAllBrands = props.fetchAllBrands;
+
+    useEffect(() => {
+        fetchTypesDevices();
+        fetchAllBrands();
+    }, [fetchTypesDevices,fetchAllBrands]);
 
     return (
         <div className={styles.root}>
             <h1>Create device</h1>
             <Formik
-            initialValues={{
-                name: '',
-                price: 0,
-                img: '',
-                typeId: 0,
-                brandId: 0
-            }}
-            onSubmit={async (values) => {
-                props.createDevice(values)
-              }}
+                initialValues={{
+                    name: '',
+                    price: 0,
+                    img: '',
+                    brandId: 0,
+                    typeId: 0
+                }}
+                onSubmit={async (values) => {
+                    debugger
+                    props.createDevice(values)
+                }}
             >
-                <div className={styles.admin__form}>
-                    <Form>
-                        <label htmlFor="name">Name</label>
-                        <Field id="name" name="name" placeholder="apple" />
+            {(formProps) => (
+                <Form>
+                    <label htmlFor="name">Name</label>
+                    <Field id="name" name="name" placeholder="apple" />
 
-                        <label htmlFor="price">Price</label>
-                        <Field id="price" name="price" placeholder="1000" />
+                    <label htmlFor="price">Price</label>
+                    <Field id="price" name="price" placeholder="1000" />
 
-                        <label htmlFor="img">img</label>
-                        <Field id="img" name="img" placeholder="" type="file"/>
+                    <label htmlFor="img">img</label>
+                    <input id="img" name="img" placeholder="img" type="file" onChange={(event) => formProps.setFieldValue("img", event.target.files[0])}
+                    />
 
-                        <label htmlFor="typeId">typeId</label>
-                        <Field id="typeId" name="typeId" placeholder="1" />
+                    <select name="select type"> Выберите тип устройства
+                        {props.types.map(el => <option>{el.name}</option>)}
+                    </select>
 
-                        <label htmlFor="brandId">brandId</label>
-                        <Field id="brandId" name="brandId" placeholder="2" />
+                    <select name="select brand"> Выберите бренд устройства
+                        {props.brands.map(el => <option>{el.name}</option>)}
+                    </select>
+                    
 
-                        <button type="submit">Submit</button>
-                    </Form>
-                </div>
+                    <button type="submit">Submit</button>
+                </Form>
+            )}
             </Formik>
         </div>
     )
@@ -64,8 +65,10 @@ const AdminPanel= props => {
 
 const mapStateToProps = (state) => {
     return {
-        devices: state.devices.devices
+        devices: state.devices.devices,
+        types: state.typesDevices.typesOfDevices,
+        brands: state.brands.brands
     }
 }
 
-export default connect(mapStateToProps, {createDevice})(AdminPanel)
+export default connect(mapStateToProps, {fetchTypesDevices, fetchAllBrands, createDevice, createBrand, createType})(AdminPanel)

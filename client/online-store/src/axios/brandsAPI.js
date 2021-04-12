@@ -1,6 +1,11 @@
-import {$host} from './axios'
+import {$host, $authHost} from './axios'
 
 export const fetchAllBrandsAPI = async() => {
     const {data} = await $host.get('/brand');
+    return data;
+};
+
+export const createBrandAPI = async(brand) => {
+    const {data} = await $authHost.post('/brand', brand);
     return data;
 };

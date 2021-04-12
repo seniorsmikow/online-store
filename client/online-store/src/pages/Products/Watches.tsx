@@ -34,7 +34,7 @@ const Watches: React.FC<PropsType> = React.memo(props => {
                 {
                     devices.map((el: any) => 
                     <div className={styles.card__wrapper} key={el.name}>
-                        <SmallCard key={el.name} title={el.name} src={process.env.REACT_APP_API_IMG + el.img}/>
+                        <SmallCard key={el.name} title={el.name} src={process.env.REACT_APP_API_IMG + el.img} id={el.id}/>
                     </div>
                     
                     )

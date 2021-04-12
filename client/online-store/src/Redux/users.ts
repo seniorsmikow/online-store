@@ -79,7 +79,6 @@ export const userRegistration = (email: string, password: string, name: string):
 export const checkUserAuth = (): ThunkType => {
     return async(dispatch) => {
         let response = await checkAPI()
-        debugger
         dispatch(actions.check())
     }
 }

@@ -1,5 +1,5 @@
 import {typeOfDevice} from '../types/types'
-import {fetchAllTypes} from '../axios/typesAPI'
+import {fetchAllTypes, createTypeAPI} from '../axios/typesAPI'
 import { InferActionsTypes, BaseThunkType } from './store'
 
 
@@ -25,13 +25,21 @@ const typesDevicesReducer = (state = initialState, action: ActionsTypes): Initia
 }
 
 export const actions = {
-    fetchTypes: (payload: any) => ({type: 'typesDevices/FETCH_TYPES', payload} as const)
+    fetchTypes: (payload: any) => ({type: 'typesDevices/FETCH_TYPES', payload} as const),
+    create: (payload: string) => ({type: 'typesDevices/CREATE_TYPE', payload} as const)
 }
 
 export const fetchTypesDevices = (): ThunkType => {
     return async(dispatch) => {
         let response = await fetchAllTypes()
         dispatch(actions.fetchTypes(response));
+    }
+}
+
+export const createType = (type: string): ThunkType => {
+    return async(dispatch) => {
+        let response = await createTypeAPI(type)
+        dispatch(actions.create(response));
     }
 }
 

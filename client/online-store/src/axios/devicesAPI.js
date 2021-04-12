@@ -6,6 +6,11 @@ export const fetchAllDevicesAPI = async() => {
 };
 
 export const createDeviceAPI = async(device) => {
-    const {data} = await $authHost.post('/device', (device));
+    const {data} = await $authHost.post('/device', device);
+    return data;
+};
+
+export const fetchOneDeviceAPI = async(path) => {
+    const {data} = await $host.get(path);
     return data;
 };
