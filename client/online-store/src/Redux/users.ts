@@ -71,14 +71,14 @@ export const userLogout = (): ThunkType => {
  
 export const userRegistration = (email: string, password: string, name: string): ThunkType => {
     return async(dispatch) => {
-        let response =  await registrationAPI(email, password, name)
+        await registrationAPI(email, password, name)
         dispatch(actions.registration(true))
     }
 }
 
 export const checkUserAuth = (): ThunkType => {
     return async(dispatch) => {
-        let response = await checkAPI()
+        await checkAPI()
         dispatch(actions.check())
     }
 }

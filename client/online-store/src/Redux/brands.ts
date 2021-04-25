@@ -45,7 +45,7 @@ export const createBrand = (brand: string): ThunkType => {
 
     debugger
     return async (dispatch) => {
-        let response = await createBrandAPI(brand)
+        await createBrandAPI(brand)
     }
 }
 

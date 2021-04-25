@@ -32,10 +32,10 @@ const RegistrationForm: React.FC<PropsType> = props => {
       >
         <Form className={styles.form}>
           <label htmlFor="email">Email</label>
-          <Field id="email" name="email" placeholder="email" type="email"/>
+          <Field id="email" name="email" placeholder="email" type="email" autoComplete="on"/>
 
           <label htmlFor="password">Password</label>
-          <Field id="password" name="password" placeholder="password" type="password"/>
+          <Field id="password" name="password" placeholder="password" type="password" autoComplete="on"/>
 
           <label htmlFor="name">Name</label>
           <Field id="name" name="name" placeholder="name"/>

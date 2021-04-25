@@ -8,9 +8,9 @@ const Sidebar = () => {
     return (
         <div className={styles.root}>
             <ul>
-                <li><NavLink to="/Smartphones">Смартфоны</NavLink></li>
-                <li><NavLink to="/Watches">Часы</NavLink></li>
-                <li><NavLink to="/VideoGames">Видеоигры</NavLink></li>
+                <li><NavLink to="/smartphones">Смартфоны</NavLink></li>
+                <li><NavLink to="/watches">Часы</NavLink></li>
+                <li><NavLink to="/videoGames">Видеоигры</NavLink></li>
             </ul>
         </div>
     )

@@ -1,12 +1,10 @@
 import React, {useEffect} from 'react'
-import {AppStateType} from '../../Redux/store'
 import {connect} from 'react-redux'
 import {createDevice} from '../../Redux/devices'
 import {createBrand, fetchAllBrands} from '../../Redux/brands'
 import {createType, fetchTypesDevices} from '../../Redux/typesDevices'
-import { Formik, Field, Form, FormikHelpers } from 'formik'
+import { Formik, Field, Form } from 'formik'
 import styles from './AdminPanel.module.scss'
-import { fetchAllBrandsAPI } from '../../axios/brandsAPI'
 
 const AdminPanel= props => {
 
@@ -26,8 +24,8 @@ const AdminPanel= props => {
                     name: '',
                     price: 0,
                     img: '',
-                    brandId: 0,
-                    typeId: 0
+                    brandId: 1,
+                    typeId: 1
                 }}
                 onSubmit={async (values) => {
                     debugger

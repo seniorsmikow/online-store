@@ -1,29 +1,27 @@
 import React from 'react'
-import {fetchOneDevice} from '../../Redux/devices'
+import {useHistory} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {AppStateType} from '../../Redux/store'
+import {devicesType} from '../../types/types'
 import styles from './SmallCard.module.scss'
-import {useHistory} from 'react-router-dom'
 
 type PropsType = {
     src?: string
     title: string
-    id: string
-    fetchOneDevice: (id: string) => void
-    device: any
+    id: number
+    device: devicesType | null
 }
 
-const SmallCard: React.FC<PropsType> = ({src, title, fetchOneDevice, id, device}) => {
+const SmallCard: React.FC<PropsType> = ({src, title, id}) => {
 
     const history = useHistory()
 
     const toDevicePage = () => {
-        history.push('/device/' + id)
+        history.push(`/device/${id}`)
     }
 
     return (
         <>
-        
         <div className={styles.root}>
             <div className={styles.card__wrapper}>
                 <div className={styles.card_photo}>
@@ -36,7 +34,6 @@ const SmallCard: React.FC<PropsType> = ({src, title, fetchOneDevice, id, device}
                 </div>
             </div>
         </div>
-          
         </>
     )
 }
@@ -48,4 +45,4 @@ const mapStateToProps = (state: AppStateType) => {
     }
 }
 
-export default connect(mapStateToProps, {fetchOneDevice})(SmallCard)
+export default connect(mapStateToProps)(SmallCard)

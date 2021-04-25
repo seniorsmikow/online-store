@@ -1,32 +1,44 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {fetchAllDevices} from '../../Redux/devices'
 import {AppStateType} from '../../Redux/store'
 import {devicesType} from '../../types/types'
 import SmallCard from '../../components/SmallCard/SmallCard'
-import Pagination from '../../components/Pagination/Pagination'
+import Pagination from '@material-ui/lab/Pagination'
 import styles from './Smartphones.module.scss'
 
 type PropsType = {
-    //devices: Array<devicesType>
-    devices: any
-    fetchAllDevices: () => void
+    devices: Array<devicesType>
+    fetchAllDevices: (typeId: number, limit: number, page: number) => void
+    count: number
+    currentPageDevices: number
 }
 
-const VideoGames: React.FC<PropsType> = React.memo(props => {
+const VideoGames: React.FC<PropsType> = React.memo(({devices, fetchAllDevices, count, currentPageDevices}) => {
 
-    const devices = props.devices.filter((el: any) => el.typeId === 3)
-    const fetchAllDevices = props.fetchAllDevices
+    const pageSize = 3
+
+    let pagesCount = Math.ceil(count / pageSize)
+
+    const[currentPage, setCurrentPageDevices] = useState(currentPageDevices)
 
     useEffect(() => {
-        fetchAllDevices()
-    }, [devices, fetchAllDevices])
+        fetchAllDevices(3, 3, currentPage)
+    }, [devices, fetchAllDevices, currentPage])
 
 
     return (
         <div className={styles.root}>
             <div className={styles.smartphones__pagination}>
-                <Pagination /> 
+                <Pagination 
+                    color="secondary" 
+                    count={pagesCount} 
+                    shape="rounded" 
+                    page={currentPage}
+                    showFirstButton={true} 
+                    showLastButton={true} 
+                    onChange = {(event, pages) => {setCurrentPageDevices(pages)}}
+                />
             </div>
             <div className={styles.smartphones__wrapper}>
                 {
@@ -45,7 +57,9 @@ const VideoGames: React.FC<PropsType> = React.memo(props => {
 
 const mapStateToProps = (state: AppStateType) => {
     return {
-        devices: state.devices.devices
+        devices: state.devices.devices,
+        currentPageDevices: state.devices.currentPageDevices,
+        count: state.devices.count,
     }
 }
 

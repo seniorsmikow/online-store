@@ -32,10 +32,10 @@ const LoginForm: React.FC <PropsType> = props => {
       >
         <Form className={styles.form}>
           <label htmlFor="email">Email</label>
-          <Field id="email" name="email" placeholder="email" type="email"/>
+          <Field id="email" name="email" placeholder="email" type="email" autoComplete="on"/>
 
           <label htmlFor="password">Password</label>
-          <Field id="password" name="password" placeholder="password" type="password"/>
+          <Field id="password" name="password" placeholder="password" type="password" autoComplete="on"/>
 
           <Button text="Login" style={{width: '80px', backgroundColor: '#667e9a', color: 'white', fontSize: '12px'}}>
             <button type="submit"></button>

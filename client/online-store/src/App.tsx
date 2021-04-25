@@ -3,7 +3,7 @@ import './App.scss'
 import {connect} from 'react-redux'
 import {checkUserAuth} from './Redux/users' 
 import {AppStateType} from './Redux/store'
-import {Route, HashRouter, Router} from 'react-router-dom'
+import {Route, HashRouter} from 'react-router-dom'
 import Header from './components/Header/Header'
 import Sidebar from './components/Sidebar/Sidebar';
 import Smartphones from './Pages/Products/Smartphones'
@@ -22,7 +22,6 @@ type PropsType = {
 const App: React.FC<PropsType> = props => {
 
   const check = props.checkUserAuth
-
   useEffect(() => {
     check()
   })
@@ -33,12 +32,12 @@ const App: React.FC<PropsType> = props => {
           <Header />
           <Sidebar />
 
-          <Route path='/smartphones' render={() => <Smartphones /> } />
-          <Route path='/watches' render={() => <Watches /> } />
-          <Route path='/videogames' render={() => <VideoGames /> } />
-          <Route exact path='/' render={() => <Main />} />
-          <Route path='/adminPanel' render={() => <AdminPanel />} />
-          <Route path='/device' render={() => <Device />} />
+          <Route exact path='/smartphones' component={Smartphones} />
+          <Route exact path='/watches' component={Watches} />
+          <Route exact path='/videogames' component={VideoGames} />
+          <Route exact path='/' component={Main} />
+          <Route path='/adminPanel' component={AdminPanel} />
+          <Route path='/device/:deviceId' component={Device} />
       </HashRouter>
     </div>
   );
