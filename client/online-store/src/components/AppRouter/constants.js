@@ -1,0 +1,9 @@
+export const ADMIN_ROUTE = '/adminPanel';
+export const LOGIN_ROUTE = '/login';
+export const REGISTRATION_ROUTE = '/registration';
+export const SHOP_MAIN_ROUTE = '/main';
+export const BASKET_ROUTE = '/basket';
+export const DEVICE_ROUTE = '/device/:deviceId';
+export const SMARTPHONES_ROUTE = '/smartphones';
+export const WATCHES_ROUTE = '/watches';
+export const VIDEOGAMES_ROUTE = '/videogames';

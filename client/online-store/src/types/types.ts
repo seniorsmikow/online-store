@@ -7,7 +7,8 @@ export type userType = {
     id: number,
     email: string,
     password: string,
-    role: string
+    role: string,
+    name: string
 }
 
 export type typeOfDevice = {

@@ -1,5 +1,40 @@
 .root {
     margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    h1 {
+        color: red;
+        font-size: 20px;
+    }
+    form {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        input{
+            margin-top: 10px;
+            width: 200px;
+            height: 40px;
+            border: 1px solid black;
+            border-radius: 4px;
+            text-align: center;
+        }
+        button {
+            margin-top: 20px;
+            background-color: red;
+            color: white;
+            height: 40px;
+            border-radius: 5px;
+        }
+        select {
+            margin-top: 20px;
+            width: 200px;
+            height: 40px;
+            background-color: #d6d6d6;
+            color: black;
+            border-radius: 5px;
+        }
+    }
 }
 
 .admin__form {

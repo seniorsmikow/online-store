@@ -8,10 +8,11 @@ import Button from '../../components/Button/Button'
 import {NavLink} from 'react-router-dom'
 import Modal from '../Modal/Modal'
 import LoginForm from '../../Pages/Forms/Login/LoginForm'
+import {userType} from '../../types/types'
 
 
 type PropsType = {
-    user: any
+    user: userType
     userLogin: (email: string, password: string) => void
 }
 
@@ -26,7 +27,7 @@ const Header: React.FC<PropsType> = props => {
     return (
         <div className={styles.root}>
             <h1>
-                <NavLink to="/">Online-store</NavLink>
+                <NavLink to="/main">Online-store</NavLink>
             </h1>
 
             <Modal isOpen={open} setOpen={setOpen}>

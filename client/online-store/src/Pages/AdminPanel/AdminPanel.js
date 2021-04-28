@@ -23,33 +23,41 @@ const AdminPanel= props => {
                 initialValues={{
                     name: '',
                     price: 0,
-                    img: '',
                     brandId: 1,
-                    typeId: 1
+                    typeId: 1,
+                    img: null
                 }}
                 onSubmit={async (values) => {
-                    debugger
-                    props.createDevice(values)
+
+                    const formData = new FormData()
+                    formData.append('name', values.name)
+                    formData.append('price', `${values.price}`)
+                    formData.append('img', values.file)
+                    formData.append('brandId', 1)
+                    formData.append('typeId', 1)
+                    props.createDevice(formData)
+
                 }}
             >
-            {(formProps) => (
+            {({ errors, touched, setFieldValue }) => (
                 <Form>
-                    <label htmlFor="name">Name</label>
-                    <Field id="name" name="name" placeholder="apple" />
+                    <label htmlFor="name">Название устройства</label>
+                    <Field id="name" name="name" placeholder="Название устройства" />
 
-                    <label htmlFor="price">Price</label>
-                    <Field id="price" name="price" placeholder="1000" />
+                    <label htmlFor="price">Цена</label>
+                    <Field id="price" name="price" placeholder="Цена" />
 
-                    <label htmlFor="img">img</label>
-                    <input id="img" name="img" placeholder="img" type="file" onChange={(event) => formProps.setFieldValue("img", event.target.files[0])}
-                    />
+                    <label htmlFor="file">Выберите изображение</label>
+                    <input id="file" name="file" type="file" onChange={(event) => {
+                        setFieldValue("file", event.currentTarget.files[0]);
+                    }}/>
 
                     <select name="select type"> Выберите тип устройства
-                        {props.types.map(el => <option>{el.name}</option>)}
+                        {props.types.map(el => <option key={el.name}>{el.name}</option>)}
                     </select>
 
                     <select name="select brand"> Выберите бренд устройства
-                        {props.brands.map(el => <option>{el.name}</option>)}
+                        {props.brands.map(el => <option key={el.name}>{el.name}</option>)}
                     </select>
                     
 
