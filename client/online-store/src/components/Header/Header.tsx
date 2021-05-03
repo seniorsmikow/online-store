@@ -1,4 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import {Redirect} from 'react-router-dom'
+import {BASKET_ROUTE} from '../../components/AppRouter/constants'
+import {publicRoutes} from '../../components/AppRouter/Routes'
 import styles from './Header.module.scss'
 import {connect} from 'react-redux'
 import {AppStateType} from '../../Redux/store'
@@ -8,22 +11,32 @@ import Button from '../../components/Button/Button'
 import {NavLink} from 'react-router-dom'
 import Modal from '../Modal/Modal'
 import LoginForm from '../../Pages/Forms/Login/LoginForm'
+import Badge from '@material-ui/core/Badge'
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import {userType} from '../../types/types'
+import {useHistory} from 'react-router-dom'
 
 
 type PropsType = {
     user: userType
     userLogin: (email: string, password: string) => void
+    devicesId: Array<number>
 }
 
-const Header: React.FC<PropsType> = props => {
+const Header: React.FC<PropsType> = ({user, userLogin, devicesId}) => {
 
     const [open, setOpen] = useState(false)
+    const [count, setCount] = useState(devicesId.length)
+    const history = useHistory()
+
+    useEffect(() => {
+        setCount(devicesId.length)
+    }, [devicesId])
 
     const openModalWindow = () => {
         setOpen(true)
     }
-
+    
     return (
         <div className={styles.root}>
             <h1>
@@ -31,17 +44,17 @@ const Header: React.FC<PropsType> = props => {
             </h1>
 
             <Modal isOpen={open} setOpen={setOpen}>
-                <LoginForm userLogin={props.userLogin}/>
+                <LoginForm userLogin={userLogin}/>
             </Modal>
 
             <Button text="Login" style={{width: '60px', backgroundColor: '#5f5f5f', color: 'white', fontSize: '10px'}} func={openModalWindow}/>
 
-            {props.user.role === "ADMIN" ? 
+            {user.role === "ADMIN" ? 
 
                 //ADMIN
 
                 <div className={styles.info_block}>
-                    <div>{props.user.email ? props.user.name : 'Wait'}</div>
+                    <div>{user.email ? user.name : 'Wait'}</div>
                     <div>
                         <NavLink to="/AdminPanel">
                             <Button text="Управление" style={{width: '60px', backgroundColor: '#5f5f5f', color: 'white', fontSize: '10px'}}>
@@ -58,10 +71,18 @@ const Header: React.FC<PropsType> = props => {
                 // USER
 
                 <div className={styles.info_block}>
-                    <div>{props.user.email ? props.user.name : 'Wait'}</div>
+                    <div>{user.email ? user.name : <PersonOutlineIcon fontSize="large"/>}</div>
                     <div className={styles.basket}>
-                        <AddShoppingCartIcon />
-                        корзина
+                        <Badge 
+                            badgeContent={count} 
+                            color="secondary"
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                        >
+                            <AddShoppingCartIcon fontSize="large" style={{cursor: 'pointer'}} onClick={() => history.push(BASKET_ROUTE) }/>
+                        </Badge>
                     </div>
                     <div>
                         <Button text="Logout" style={{width: '60px', backgroundColor: 'red', color: 'white', fontSize: '12px'}} />
@@ -75,6 +96,8 @@ const Header: React.FC<PropsType> = props => {
 let mapStateToProps = (state: AppStateType) => {
     return ({
         user: state.user.user,
+        deviceCount: state.basket.deviceCount,
+        devicesId: state.basket.devicesId
     })
 }
 

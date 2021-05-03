@@ -5,6 +5,7 @@ import usersReducer from './users'
 import componentsReducer from './components'
 import typesDevicesReducer from './typesDevices'
 import devicesReducer from './devices'
+import basketReducer from './basket'
 
 
 let rootReducer = combineReducers({
@@ -12,7 +13,8 @@ let rootReducer = combineReducers({
     user: usersReducer,
     components: componentsReducer,
     typesDevices: typesDevicesReducer,
-    devices: devicesReducer
+    devices: devicesReducer,
+    basket: basketReducer
 });
 
 type RootState = typeof rootReducer
