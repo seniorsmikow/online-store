@@ -7,18 +7,24 @@ import {incrementDeviceCount, addDeviceId} from '../../Redux/basket'
 import {devicesType} from '../../types/types'
 import styles from './SmallCard.module.scss'
 
-type PropsType = {
-    src?: string
-    title: string
-    id: number
+interface StateProps {
     device: devicesType | null
-    incrementDeviceCount: (count: number) => void
     deviceCount: number
+}
+interface DispatchProps {
+    incrementDeviceCount: (count: number) => void
     addDeviceId: (id: number) => void
     fetchOneDevice: (id: number) => void
 }
 
-const SmallCard: React.FC<PropsType> = ({src, 
+interface OwnProps {
+    src?: string
+    title: string
+    id: number
+}
+type Props = StateProps & DispatchProps & OwnProps
+
+const SmallCard: React.FC<Props> = ({src, 
                                         title, 
                                         id, 
                                         incrementDeviceCount, 
@@ -55,12 +61,11 @@ const SmallCard: React.FC<PropsType> = ({src,
     )
 }
 
-const mapStateToProps = (state: AppStateType) => {
+const mapStateToProps = (state: AppStateType): StateProps => {
     return {
-        devices: state.devices.devices,
         device: state.devices.device,
         deviceCount: state.basket.deviceCount
     }
 }
 
-export default connect(mapStateToProps, {incrementDeviceCount, addDeviceId, fetchOneDevice})(SmallCard)
+export default connect<StateProps, DispatchProps, OwnProps, AppStateType>(mapStateToProps, {incrementDeviceCount, addDeviceId, fetchOneDevice})(SmallCard)

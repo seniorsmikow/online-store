@@ -7,14 +7,19 @@ import SmallCard from '../../components/SmallCard/SmallCard'
 import Pagination from '@material-ui/lab/Pagination'
 import styles from './Smartphones.module.scss'
 
-type PropsType = {
+interface StateProps {
     devices: Array<devicesType>
-    fetchAllDevices: (typeId: number, limit: number, page: number) => void
-    count: number
     currentPageDevices: number
+    count: number
 }
+interface DispatchProps {
+    fetchAllDevices: (typeId: number, limit: number, page: number) => void
+}
+interface OwnProps {}
+type Props = StateProps & DispatchProps & OwnProps
 
-const VideoGames: React.FC<PropsType> = React.memo(({devices, fetchAllDevices, count, currentPageDevices}) => {
+
+const VideoGames: React.FC<Props> = React.memo(({devices, fetchAllDevices, count, currentPageDevices}) => {
 
     const pageSize = 3
 
@@ -55,7 +60,7 @@ const VideoGames: React.FC<PropsType> = React.memo(({devices, fetchAllDevices, c
     
 })
 
-const mapStateToProps = (state: AppStateType) => {
+const mapStateToProps = (state: AppStateType): StateProps => {
     return {
         devices: state.devices.devices,
         currentPageDevices: state.devices.currentPageDevices,
@@ -63,4 +68,4 @@ const mapStateToProps = (state: AppStateType) => {
     }
 }
 
-export default connect(mapStateToProps, {fetchAllDevices})(VideoGames)
+export default connect<StateProps, DispatchProps, OwnProps, AppStateType>(mapStateToProps, {fetchAllDevices})(VideoGames)

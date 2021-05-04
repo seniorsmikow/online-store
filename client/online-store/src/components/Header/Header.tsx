@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Redirect} from 'react-router-dom'
 import {BASKET_ROUTE} from '../../components/AppRouter/constants'
-import {publicRoutes} from '../../components/AppRouter/Routes'
 import styles from './Header.module.scss'
 import {connect} from 'react-redux'
 import {AppStateType} from '../../Redux/store'
@@ -16,14 +14,18 @@ import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import {userType} from '../../types/types'
 import {useHistory} from 'react-router-dom'
 
-
-type PropsType = {
+interface StateProps {
     user: userType
-    userLogin: (email: string, password: string) => void
     devicesId: Array<number>
 }
+interface DispatchProps {
+    userLogin: (email: string, password: string) => void
+}
+interface OwnProps {}
 
-const Header: React.FC<PropsType> = ({user, userLogin, devicesId}) => {
+type Props = StateProps & DispatchProps & OwnProps
+
+const Header: React.FC<Props> = ({user, userLogin, devicesId}) => {
 
     const [open, setOpen] = useState(false)
     const [count, setCount] = useState(devicesId.length)
@@ -93,12 +95,9 @@ const Header: React.FC<PropsType> = ({user, userLogin, devicesId}) => {
     )
 }
 
-let mapStateToProps = (state: AppStateType) => {
-    return ({
-        user: state.user.user,
-        deviceCount: state.basket.deviceCount,
-        devicesId: state.basket.devicesId
-    })
-}
+let mapState = (state: AppStateType): StateProps => ({
+    user: state.user.user,
+    devicesId: state.basket.devicesId
+})
 
-export default connect(mapStateToProps, {userLogin})(Header)
+export default connect<StateProps, DispatchProps, OwnProps, AppStateType>(mapState, {userLogin})(Header)

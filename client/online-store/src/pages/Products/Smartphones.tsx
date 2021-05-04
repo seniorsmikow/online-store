@@ -7,16 +7,21 @@ import SmallCard from '../../components/SmallCard/SmallCard'
 import Pagination from '@material-ui/lab/Pagination'
 import styles from './Smartphones.module.scss'
 
-type PropsType = {
+interface StateProps {
     devices: Array<devicesType>
-    fetchAllDevices: (typeId: number, limit: number, page: number) => void
     limitDevices: number
-    count: number
     currentPageDevices: number
+    count: number
+}
+interface DispatchProps {
+    fetchAllDevices: (typeId: number, limit: number, page: number) => void
     changeCurrentPage: (page: number) => void
 }
+interface OwnProps {}
+type Props = StateProps & DispatchProps & OwnProps
 
-const Smartphones: React.FC<PropsType> = React.memo(({devices, 
+
+const Smartphones: React.FC<Props> = React.memo(({devices, 
                                                     fetchAllDevices, 
                                                     limitDevices, 
                                                     count, 
@@ -64,7 +69,7 @@ const Smartphones: React.FC<PropsType> = React.memo(({devices,
     
 })
 
-const mapStateToProps = (state: AppStateType) => {
+const mapStateToProps = (state: AppStateType): StateProps => {
     return {
         devices: state.devices.devices,
         limitDevices: state.devices.limitDevices,
@@ -73,4 +78,4 @@ const mapStateToProps = (state: AppStateType) => {
     }
 }
 
-export default connect(mapStateToProps, {fetchAllDevices, changeCurrentPage})(Smartphones)
+export default connect<StateProps, DispatchProps, OwnProps, AppStateType>(mapStateToProps, {fetchAllDevices, changeCurrentPage})(Smartphones)
