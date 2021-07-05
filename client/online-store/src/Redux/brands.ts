@@ -35,15 +35,15 @@ export const actions = {
 }
 
 export const fetchAllBrands = (): ThunkType => {
+    debugger
     return async (dispatch) => {
         let response = await fetchAllBrandsAPI()
+        debugger
         dispatch(actions.fetchBrands(response))
     };
 };
 
 export const createBrand = (brand: string): ThunkType => {
-
-    debugger
     return async (dispatch) => {
         await createBrandAPI(brand)
     }

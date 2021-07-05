@@ -20,6 +20,22 @@
     }
 }
 
+.title__wrapper {
+    display: flex;
+    align-items: center;
+    h1 {
+        margin-left: 70px;
+        text-transform: uppercase;
+    }
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 10px;
+        animation: iconRotation infinite 3s ease-in-out;
+    }
+}
+
 .info_block {
     width: 300px;
     display: flex;
@@ -41,5 +57,11 @@
         h1 {
             display: none;
         }
+    }
+}
+
+@keyframes iconRotation {
+    50% {
+        transform: scale(1.3);
     }
 }

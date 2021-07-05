@@ -7,12 +7,16 @@ type InitialStateType = {
     isLoad: boolean,
     typesOfDevices: Array<typeOfDevice> 
     activeType: number 
+    error: string | null
+    message: string | null
 }
 
 let initialState: InitialStateType = {
     isLoad: false,
     typesOfDevices: [],
-    activeType: 0
+    activeType: 0,
+    error: null,
+    message: null
 }
 
 const typesDevicesReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
@@ -25,6 +29,14 @@ const typesDevicesReducer = (state = initialState, action: ActionsTypes): Initia
             return {
                 ...state, activeType: action.payload
             }
+        case 'typesDevices/GET_ERROR':
+            return {
+                ...state, error: action.payload
+            }
+        case 'typesDevices/SUCCESS_RESPONSE': 
+            return {
+                ...state, message: action.payload
+            }
         default:
             return state
     }
@@ -33,7 +45,9 @@ const typesDevicesReducer = (state = initialState, action: ActionsTypes): Initia
 export const actions = {
     fetchTypes: (payload: any) => ({type: 'typesDevices/FETCH_TYPES', payload} as const),
     create: (payload: string) => ({type: 'typesDevices/CREATE_TYPE', payload} as const),
-    active: (payload: number) => ({type: 'typesDevices/ACTIVE', payload} as const)
+    active: (payload: number) => ({type: 'typesDevices/ACTIVE', payload} as const),
+    getError: (payload: string) => ({type: 'typesDevices/GET_ERROR', payload} as const),
+    successResponse: (payload: string) => ({type: 'typesDevices/SUCCESS_RESPONSE', payload} as const)
 }
 
 export const fetchTypesDevices = (): ThunkType => {
@@ -44,9 +58,13 @@ export const fetchTypesDevices = (): ThunkType => {
 }
 
 export const createType = (type: string): ThunkType => {
-    return async(dispatch) => {
-        let response = await createTypeAPI(type)
-        dispatch(actions.create(response));
+    return async (dispatch) => {
+        try {
+            let response = await createTypeAPI(type)
+            dispatch(actions.successResponse(response.name))
+        } catch (error) {
+            dispatch(actions.getError(error.response.data.message))
+        }
     }
 }
 

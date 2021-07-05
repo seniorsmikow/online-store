@@ -3,29 +3,32 @@ import {BASKET_ROUTE} from '../../components/AppRouter/constants'
 import styles from './Header.module.scss'
 import {connect} from 'react-redux'
 import {AppStateType} from '../../Redux/store'
-import {userLogin} from '../../Redux/users'
+import {userLogin, userLogout} from '../../Redux/users'
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
 import Button from '../../components/Button/Button'
 import {NavLink} from 'react-router-dom'
-import Modal from '../Modal/Modal'
-import LoginForm from '../../Pages/Forms/Login/LoginForm'
 import Badge from '@material-ui/core/Badge'
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import {userType} from '../../types/types'
 import {useHistory} from 'react-router-dom'
+import LogAndRegModal from '../MU_Modal/Modal'
+import StarOutlineIcon from '@material-ui/icons/StarOutline'
 
 interface StateProps {
     user: userType
     devicesId: Array<number>
+    isAuth: boolean
+    isReg: boolean
 }
 interface DispatchProps {
     userLogin: (email: string, password: string) => void
+    userLogout: () => void
 }
 interface OwnProps {}
 
 type Props = StateProps & DispatchProps & OwnProps
 
-const Header: React.FC<Props> = ({user, userLogin, devicesId}) => {
+const Header: React.FC<Props> = ({user, userLogin, devicesId, isAuth, isReg, userLogout}) => {
 
     const [open, setOpen] = useState(false)
     const [count, setCount] = useState(devicesId.length)
@@ -38,18 +41,17 @@ const Header: React.FC<Props> = ({user, userLogin, devicesId}) => {
     const openModalWindow = () => {
         setOpen(true)
     }
-    
+
     return (
         <div className={styles.root}>
-            <h1>
-                <NavLink to="/main">Online-store</NavLink>
-            </h1>
-
-            <Modal isOpen={open} setOpen={setOpen}>
-                <LoginForm userLogin={userLogin}/>
-            </Modal>
-
-            <Button text="Login" style={{width: '60px', backgroundColor: '#5f5f5f', color: 'white', fontSize: '10px'}} func={openModalWindow}/>
+            <div className={styles.title__wrapper}>
+                <h1>
+                    <NavLink to="/main">Online-store</NavLink>
+                </h1>
+                <div className={styles.icon}>
+                    <StarOutlineIcon fontSize="large" color="error"/>
+                </div>
+            </div>
 
             {user.role === "ADMIN" ? 
 
@@ -64,7 +66,7 @@ const Header: React.FC<Props> = ({user, userLogin, devicesId}) => {
                         </NavLink>
                     </div>
                     <div>
-                        <Button text="Logout" style={{width: '60px', backgroundColor: 'red', color: 'white', fontSize: '12px'}} />
+                        <LogAndRegModal userLogin={userLogin} buttonText={isAuth ? "Logout" : "Login"} isAuth={isAuth} isReg={isReg}/>
                     </div>
                 </div>
 
@@ -87,7 +89,7 @@ const Header: React.FC<Props> = ({user, userLogin, devicesId}) => {
                         </Badge>
                     </div>
                     <div>
-                        <Button text="Logout" style={{width: '60px', backgroundColor: 'red', color: 'white', fontSize: '12px'}} />
+                        <LogAndRegModal userLogin={userLogin} buttonText={isAuth ? "Logout" : "Login"} isAuth={isAuth} isReg={isReg}/>
                     </div>
                 </div>
             }
@@ -97,7 +99,9 @@ const Header: React.FC<Props> = ({user, userLogin, devicesId}) => {
 
 let mapState = (state: AppStateType): StateProps => ({
     user: state.user.user,
-    devicesId: state.basket.devicesId
+    devicesId: state.basket.devicesId,
+    isAuth: state.user.isAuth,
+    isReg: state.user.isReg
 })
 
-export default connect<StateProps, DispatchProps, OwnProps, AppStateType>(mapState, {userLogin})(Header)
+export default connect<StateProps, DispatchProps, OwnProps, AppStateType>(mapState, {userLogin, userLogout})(Header)

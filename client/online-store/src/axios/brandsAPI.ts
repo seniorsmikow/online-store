@@ -1,11 +1,18 @@
 import {$host, $authHost} from './axios'
+import {brandsType} from '../types/types'
+
+
+type Brand = {
+    name: string
+}
+type Brands = Array<brandsType>
 
 export const fetchAllBrandsAPI = async() => {
-    const {data} = await $host.get('/brand')
+    let {data} = await $host.get<Brands>('/brand')
     return data
 }
 
 export const createBrandAPI = async(brand: string) => {
-    const {data} = await $authHost.post('/brand', brand)
+    let {data} = await $authHost.post<Brand>('/brand', brand)
     return data
 }

@@ -59,12 +59,10 @@ const Watches: React.FC<Props> = React.memo(({devices, fetchAllDevices, count, c
     
 })
 
-const mapStateToProps = (state: AppStateType): StateProps => {
-    return {
-        devices: state.devices.devices,
-        currentPageDevices: state.devices.currentPageDevices,
-        count: state.devices.count
-    }
-}
+const mapStateToProps = (state: AppStateType): StateProps => ({
+    devices: state.devices.devices,
+    currentPageDevices: state.devices.currentPageDevices,
+    count: state.devices.count
+})
 
 export default connect<StateProps, DispatchProps, OwnProps, AppStateType>(mapStateToProps, {fetchAllDevices})(Watches)

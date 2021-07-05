@@ -10,12 +10,13 @@ interface Values {
 
 type PropsType = {
   userLogin: (email: string, password: string) => void
+  handleClose: () => void
 }
 
-const LoginForm: React.FC <PropsType> = props => {
+const LoginForm: React.FC <PropsType> = ({userLogin, handleClose}) => {
   return (
     <div className={styles.root}>
-      <h1>Login</h1>
+      {/* <h1>Login</h1> */}
       <Formik
         initialValues={{
           email: '',
@@ -26,8 +27,8 @@ const LoginForm: React.FC <PropsType> = props => {
           { setSubmitting }: FormikHelpers<Values>
         ) => {
          
-            props.userLogin(values.email, values.password);
-          
+            userLogin(values.email, values.password)
+            handleClose()
         }}
       >
         <Form className={styles.form}>

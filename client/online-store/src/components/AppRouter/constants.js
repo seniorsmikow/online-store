@@ -7,3 +7,6 @@ export const DEVICE_ROUTE = '/device/:deviceId';
 export const SMARTPHONES_ROUTE = '/smartphones';
 export const WATCHES_ROUTE = '/watches';
 export const VIDEOGAMES_ROUTE = '/videogames';
+export const AUTH_PAGE = '/authPage';
+export const REGISTR_PAGE = '/registrPage';
+export const MAIN_PAGE = '/main';

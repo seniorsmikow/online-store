@@ -47,7 +47,8 @@ const Sidebar: React.FC<PropsType> = ({typesOfDevices, fetchTypesDevices, change
                                 key={el.id}
                                 style={index === activeType ? {backgroundColor: 'rgb(245 0 87)', border: 'none'} : {backgroundColor: 'rgb(8 80 125)'}}
                                 onClick={() => changeActiveType(index)}>
-                                <NavLink to={SMARTPHONES_ROUTE}>
+                                <NavLink to={WATCHES_ROUTE}
+                                >
                                     {el.name.toUpperCase()}
                                 </NavLink>
                             </Button>

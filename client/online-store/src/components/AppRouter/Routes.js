@@ -1,10 +1,12 @@
-import AdminPanel from '../../Pages/AdminPanel/AdminPanel';
+import AdminPanel from '../../Pages/AdminPanel/AdminPanel.tsx';
 import Smartphones from '../../Pages/Products/Smartphones';
 import VideoGames from '../../Pages/Products/Videogames';
 import Watches from '../../Pages/Products/Watches';
 import Main from '../../Pages/Main/Main';
 import Device from '../../Pages/Device/Device';
-import Basket from '../Basket/Basket'
+import Basket from '../Basket/Basket';
+import AuthPage from '../Auth/Auth';
+import RegistrationPage from '../../Pages/RegistrationPage/RegistrationPage';
 import {
     ADMIN_ROUTE,
     SHOP_MAIN_ROUTE,
@@ -12,7 +14,11 @@ import {
     SMARTPHONES_ROUTE,
     WATCHES_ROUTE,
     VIDEOGAMES_ROUTE,
-    BASKET_ROUTE
+    BASKET_ROUTE,
+    AUTH_PAGE,
+    REGISTRATION_ROUTE,
+    REGISTR_PAGE,
+    MAIN_PAGE
 } from './constants.js';
 
 export const authRoutes = [
@@ -50,5 +56,17 @@ export const publicRoutes = [
     {
         path: DEVICE_ROUTE,
         Component: Device
+    },
+    {
+        path: AUTH_PAGE,
+        Component: AuthPage
+    },
+    {
+        path: REGISTRATION_ROUTE,
+        Component: RegistrationPage
+    },
+    {
+        path: MAIN_PAGE,
+        Component: Main
     }
 ];

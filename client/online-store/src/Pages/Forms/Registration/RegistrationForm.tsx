@@ -1,22 +1,41 @@
 import React from 'react'
 import { Formik, Field, Form, FormikHelpers } from 'formik'
 import styles from './RegistrationForm.module.scss'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+        marginTop: theme.spacing(2),
+        width: '40ch',
+      },
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+  }),
+);
 
 interface Values {
-  email: string
+  email: string;
   password: string
   name: string
 }
 
 type PropsType = {
-    isReg: boolean
-    userRegistration: (email: string, password: string, name: string) => void
+  userRegistration: (email: string, password: string, name: string) => void
 }
 
-const RegistrationForm: React.FC<PropsType> = props => {
+const RegistrationForm: React.FC <PropsType> = ({userRegistration}) => {
+
+  const classes = useStyles()
+
   return (
-    <div className={styles.root}>
-      <h1>Registration</h1>
+    <div>
       <Formik
         initialValues={{
           email: '',
@@ -27,24 +46,30 @@ const RegistrationForm: React.FC<PropsType> = props => {
           values: Values,
           { setSubmitting }: FormikHelpers<Values>
         ) => {
-          props.userRegistration(values.email, values.password, values.name);
+         
+            userRegistration(values.email, values.password, values.name)
         }}
       >
-        <Form className={styles.form}>
-          <label htmlFor="email">Email</label>
-          <Field id="email" name="email" placeholder="email" type="email" autoComplete="on"/>
+        <Form className={classes.root} noValidate autoComplete="off">
+          <h1>Регистрация</h1>
+          <TextField variant="outlined" label="Email" type="email"autoComplete="on">
+            <Field id="email"/>
+          </TextField>
+          <TextField label="Password" variant="outlined" type="password" autoComplete="on">
+            <Field id="password"/>
+          </TextField>
+          <TextField label="Name" variant="outlined" type="text" autoComplete="on">
+            <Field id="name"/>
+          </TextField>
 
-          <label htmlFor="password">Password</label>
-          <Field id="password" name="password" placeholder="password" type="password" autoComplete="on"/>
-
-          <label htmlFor="name">Name</label>
-          <Field id="name" name="name" placeholder="name"/>
-
-          <button type="submit">Submit</button>
+          <Button variant="contained" color="primary" type="submit">
+            Регистрация
+          </Button>
         </Form>
       </Formik>
     </div>
   );
 };
+
 
 export default RegistrationForm

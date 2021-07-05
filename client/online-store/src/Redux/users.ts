@@ -23,7 +23,7 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
             }
         case 'users/LOGIN': 
             return {
-                ...state, isAuth: true, user: {...action.payload}
+                ...state, isAuth: true, isReg: true, user: {...action.payload}
             }
         case 'users/GET_ERROR':
             return {
@@ -55,7 +55,6 @@ export const userLogin = (email: string, password: string): ThunkType => {
         try {
             let response = await loginAPI(email, password)
             dispatch(actions.login(response))
-
         } catch (error) {
             dispatch(actions.getError(error.response.data.message))
         }
