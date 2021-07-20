@@ -3,7 +3,7 @@ import {BASKET_ROUTE} from '../../components/AppRouter/constants'
 import styles from './Header.module.scss'
 import {connect} from 'react-redux'
 import {AppStateType} from '../../Redux/store'
-import {userLogin, userLogout} from '../../Redux/users'
+import {userLogin, userLogout, checkUserAuth} from '../../Redux/users'
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
 import Button from '../../components/Button/Button'
 import {NavLink} from 'react-router-dom'
@@ -11,7 +11,7 @@ import Badge from '@material-ui/core/Badge'
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import {userType} from '../../types/types'
 import {useHistory} from 'react-router-dom'
-import LogAndRegModal from '../MU_Modal/Modal'
+import LogAndRegModal from '../LogAndRegModal/LogAndRegModal'
 import StarOutlineIcon from '@material-ui/icons/StarOutline'
 
 interface StateProps {
@@ -23,23 +23,31 @@ interface StateProps {
 interface DispatchProps {
     userLogin: (email: string, password: string) => void
     userLogout: () => void
+    checkUserAuth: () => void
 }
 interface OwnProps {}
 
 type Props = StateProps & DispatchProps & OwnProps
 
-const Header: React.FC<Props> = ({user, userLogin, devicesId, isAuth, isReg, userLogout}) => {
+const Header: React.FC<Props> = ({user, userLogin, devicesId, isAuth, isReg, userLogout, checkUserAuth}) => {
 
     const [open, setOpen] = useState(false)
+    const [auth, setAuth] = useState(isAuth)
     const [count, setCount] = useState(devicesId.length)
     const history = useHistory()
 
     useEffect(() => {
         setCount(devicesId.length)
-    }, [devicesId])
+        setAuth(isAuth)
+        checkUserAuth()
+    }, [devicesId, isAuth, checkUserAuth])
 
     const openModalWindow = () => {
         setOpen(true)
+    }
+
+    const userLogoutNew = () => {
+        userLogout()
     }
 
     return (
@@ -59,14 +67,14 @@ const Header: React.FC<Props> = ({user, userLogin, devicesId, isAuth, isReg, use
 
                 <div className={styles.info_block}>
                     <div>{user.email ? user.name : 'Wait'}</div>
-                    <div>
+                    <div className={styles.admin_block}>
                         <NavLink to="/AdminPanel">
                             <Button text="Управление" style={{width: '60px', backgroundColor: '#5f5f5f', color: 'white', fontSize: '10px'}}>
                             </Button>
                         </NavLink>
                     </div>
                     <div>
-                        <LogAndRegModal userLogin={userLogin} buttonText={isAuth ? "Logout" : "Login"} isAuth={isAuth} isReg={isReg}/>
+                        <LogAndRegModal userLogin={userLogin} buttonText={isAuth ? "Logout" : "Login"} isAuth={isAuth} isReg={isReg} userLogout={userLogout}/>
                     </div>
                 </div>
 
@@ -89,7 +97,7 @@ const Header: React.FC<Props> = ({user, userLogin, devicesId, isAuth, isReg, use
                         </Badge>
                     </div>
                     <div>
-                        <LogAndRegModal userLogin={userLogin} buttonText={isAuth ? "Logout" : "Login"} isAuth={isAuth} isReg={isReg}/>
+                        <LogAndRegModal userLogin={userLogin} buttonText={auth ? "Logout" : "Login"} isAuth={isAuth} isReg={isReg} userLogout={userLogout}/>
                     </div>
                 </div>
             }
@@ -104,4 +112,4 @@ let mapState = (state: AppStateType): StateProps => ({
     isReg: state.user.isReg
 })
 
-export default connect<StateProps, DispatchProps, OwnProps, AppStateType>(mapState, {userLogin, userLogout})(Header)
+export default connect<StateProps, DispatchProps, OwnProps, AppStateType>(mapState, {userLogin, userLogout, checkUserAuth})(Header)

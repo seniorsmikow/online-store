@@ -8,17 +8,17 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import styles from './Modal.module.scss'
 import LoginForm from '../../Pages/Forms/Login/LoginForm'
 import RegistrationForm from '../../Pages/Forms/Registration/RegistrationForm'
-import { NavLink } from 'react-router-dom'
 import { useHistory } from "react-router-dom"
 
 interface PropsType  {
   userLogin: (email: string, password: string) => void
+  userLogout: () => void
   buttonText: string
   isAuth: boolean
   isReg: boolean
 }
 
-const LogAndRegModal: React.FC<PropsType> = ({userLogin, buttonText, isAuth, isReg}) => {
+const LogAndRegModal: React.FC<PropsType> = ({userLogin, buttonText, isAuth, isReg, userLogout}) => {
 
   const [reg, setReg] = useState(isReg)
 
@@ -27,7 +27,11 @@ const LogAndRegModal: React.FC<PropsType> = ({userLogin, buttonText, isAuth, isR
   const history = useHistory()
 
   const handleClickOpen = () => {
-    setOpen(true)
+    if(isAuth) {
+      userLogout()
+    } else {
+      setOpen(true)
+    }
   }
 
   const handleClose = () => {
@@ -43,7 +47,7 @@ const LogAndRegModal: React.FC<PropsType> = ({userLogin, buttonText, isAuth, isR
   return (
     <div className={styles.root}>
       <Button variant="contained" onClick={handleClickOpen}>
-        {buttonText}
+        {isAuth ? "Выйти" : "Войти"}
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Login</DialogTitle>

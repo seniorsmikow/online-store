@@ -22,3 +22,57 @@
         background-color: #fff;
     }
 }
+
+@media (max-width: 900px) {
+    .root {
+        margin-top: 150px;
+        h1 {
+            font-size: 40px;
+        }
+    }
+    .root__img {
+        margin-top: 40px;
+        width: 700px;
+        height: 450px;
+    }
+}
+
+@media (max-width: 650px) {
+    .root {
+        h1 {
+            font-size: 30px;
+        }
+    }
+    .root__img {
+        width: 600px;
+        height: 350px;
+    }
+}
+
+@media (max-width: 500px) {
+    .root {
+        margin-top: 150px;
+        h1 {
+            font-size: 25px;
+        }
+    }
+    .root__img {
+        margin-top: 40px;
+        width: 500px;
+        height: 300px;
+    }
+}
+
+@media (max-width: 350px) {
+    .root {
+        margin-top: 150px;
+        h1 {
+            font-size: 20px;
+        }
+    }
+    .root__img {
+        margin-top: 40px;
+        width: 300px;
+        height: 200px;
+    }
+}

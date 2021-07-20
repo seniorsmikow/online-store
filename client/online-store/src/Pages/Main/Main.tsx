@@ -1,28 +1,35 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {AppStateType} from '../../Redux/store'
-import {userType} from '../../types/types'
 import styles from './Main.module.scss'
-import {connect} from 'react-redux'
-import {userRegistration} from '../../Redux/users'
-import {createType} from '../../Redux/typesDevices'
-import RegistrationForm from '../Forms/Registration/RegistrationForm'
 import Bag from '../../img/online-remote.png'
+import ModalInfo from '../../components/Modal_Info/ModalInfo'
+import {toggleInfoMessage} from '../../Redux/users'
 
 interface StateProps {
-    isReg: boolean
     error: string | null
-    user: userType
+    message: string | null
 }
 interface DispatchProps {
-    userRegistration: (email: string, password: string, name: string) => void
-    createType: (type: string) => void
-
+    toggleInfoMessage: (show: boolean, error: string | null) => void
 }
 interface OwnProps {}
 
 type Props = StateProps & DispatchProps & OwnProps
 
-const Main: React.FC<Props> = () => {
+const Main: React.FC<Props> = (props) => {
+
+    const error = useSelector((state: AppStateType) => state.user.error)
+    const message = useSelector((state: AppStateType) => state.user.message)
+    let authMessage = error || message
+
+    const dispatch = useDispatch()
+
+    useEffect(() => { 
+        if(authMessage) {
+            dispatch(toggleInfoMessage(true, authMessage))
+        }
+    })
 
     return (
         <div className={styles.root}>
@@ -30,14 +37,17 @@ const Main: React.FC<Props> = () => {
             <div className={styles.root__img}>
                 <img src={Bag} alt="online-store"/>
             </div>
+            <ModalInfo message={authMessage}  />
         </div>
     )
 }
 
-const mapStateToProps = (state: AppStateType): StateProps => ({
-    isReg: state.user.isReg,
-    error: state.user.error,
-    user: state.user.user,
-})
+// const mapStateToProps = (state: AppStateType): StateProps => ({
+//     error: state.user.error,
+//     isOpenInfoModal: state.user.isOpenInfoModal,
+//     message: state.user.message
+// })
 
-export default connect<StateProps, DispatchProps, OwnProps, AppStateType>(mapStateToProps, {userRegistration, createType})(Main)
+//export default connect<StateProps, DispatchProps, OwnProps, AppStateType>(mapStateToProps, {toggleInfoMessage})(Main)
+
+export default Main

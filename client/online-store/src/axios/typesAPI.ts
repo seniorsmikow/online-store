@@ -16,6 +16,7 @@ export const fetchAllTypes = async() => {
 }
 
 export const createTypeAPI = async(type: string) => {
+    debugger
     let {data} = await $authHost.post<OneType>('/type', type)
     return data
 }

@@ -1,109 +1,104 @@
-import React, {useEffect} from 'react'
-import {AppStateType} from '../../Redux/store'
-import {devicesType, typeOfDevice, brandsType} from '../../types/types'
-import {connect} from 'react-redux'
-import {createDevice} from '../../Redux/devices'
-import {createBrand, fetchAllBrands} from '../../Redux/brands'
-import {createType, fetchTypesDevices} from '../../Redux/typesDevices'
-import { Formik, Field, Form } from 'formik'
-import styles from './AdminPanel.module.scss'
+import React from 'react'
+import { makeStyles, Theme } from '@material-ui/core/styles'
+import AppBar from '@material-ui/core/AppBar'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
+import CreateDeviceForm from '../Forms/CreateDevice/CreateDevice'
+import CreateBrand from '../Forms/CreateBrand/CreateBrand'
 
-interface StateProps {
-    devices: Array<devicesType>
-    types: Array<typeOfDevice>
-    brands: Array<brandsType>
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: any;
+    value: any;
 }
-interface DispatchProps {
-    fetchTypesDevices: () => void
-    fetchAllBrands: () => void
-    // createDevice: (formData: any) => void
-    // createBrand: () => void
-    // createType: () => void
+  
+function TabPanel(props: TabPanelProps) {
+const { children, value, index, ...other } = props;
+
+return (
+    <div
+    role="tabpanel"
+    hidden={value !== index}
+    id={`nav-tabpanel-${index}`}
+    aria-labelledby={`nav-tab-${index}`}
+    {...other}
+    >
+    {value === index && (
+        <Box p={3}>
+        <Typography>{children}</Typography>
+        </Box>
+    )}
+    </div>
+);
 }
-interface OwnProps {}
 
-type Props = StateProps & DispatchProps & OwnProps 
+function a11yProps(index: any) {
+    return {
+        id: `nav-tab-${index}`,
+        'aria-controls': `nav-tabpanel-${index}`,
+    };
+}
 
-const AdminPanel: React.FC<Props> = ({
-                                        devices,
-                                        types, 
-                                        brands,
-                                        fetchTypesDevices,
-                                        fetchAllBrands,
-                                        // createDevice,
-                                        // createBrand,
-                                        // createType
-                                    }) => {
+interface LinkTabProps {
+    label?: string;
+    href?: string;
+}
 
-                                        debugger
+function LinkTab(props: LinkTabProps) {
+    return (
+        <Tab
+        component="a"
+        onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+            event.preventDefault();
+        }}
+        {...props}
+        />
+    );
+}
 
-    useEffect(() => {
-        fetchAllBrands();
-        fetchTypesDevices();
-    }, [fetchAllBrands, fetchTypesDevices]);
+const useStyles = makeStyles((theme: Theme) => ({
+    root: {
+        marginTop: theme.spacing(15),
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+    },
+}));
+
+export default function NavTabs() {
+    const classes = useStyles();
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+        setValue(newValue);
+    };
 
     return (
-        <div className={styles.root}>
-            <h1>Создание нового товара</h1>
-            <Formik
-                initialValues={{
-                    name: '',
-                    price: 0,
-                    brandId: '1',
-                    typeId: '1',
-                    img: null,
-                    file: '' 
-                }}
-                onSubmit={async (values) => {
-
-                    const formData = new FormData()
-                    formData.append('name', values.name)
-                    formData.append('price', `${values.price}`)
-                    formData.append('img', values.file)
-                    formData.append('brandId', '1')
-                    formData.append('typeId', '1')
-                    createDevice(formData)
-
-                }}
+        <div className={classes.root}>
+        <AppBar position="static">
+            <Tabs
+            variant="fullWidth"
+            value={value}
+            onChange={handleChange}
+            aria-label="nav tabs example"
             >
-            {({ errors, touched, setFieldValue }) => (
-                <Form>
-                    <label htmlFor="name">Название устройства</label>
-                    <Field id="name" name="name" placeholder="Название устройства" />
-
-                    <label htmlFor="price">Цена</label>
-                    <Field id="price" name="price" placeholder="Цена" />
-
-                    <label htmlFor="file">Выберите изображение</label>
-                    <input id="file" name="file" type="file" onChange={(event: React.SyntheticEvent<EventTarget>) => {
-                        const target= event.target as HTMLInputElement;
-                        const file: File = (target.files as FileList)[0]
-                        setFieldValue("file", file);
-                    }}/>
-
-                    <select name="select type"> Выберите тип устройства
-                        {types.map(el => <option key={el.name}>{el.name}</option>)}
-                    </select>
-
-                    <select name="select brand"> Выберите бренд устройства
-                        {brands.map(el => <option key={el.name}>{el.name}</option>)}
-                    </select>
-                    
-
-                    <button type="submit">Submit</button>
-                </Form>
-            )}
-            </Formik>
+            <LinkTab label="Создать бренд " href="/drafts" {...a11yProps(0)} />
+            <LinkTab label="Создать тип" href="/trash" {...a11yProps(1)} />
+            <LinkTab label="Создать устройство" href="/spam" {...a11yProps(2)} />
+            </Tabs>
+        </AppBar>
+        <TabPanel value={value} index={0}>
+            Создать новый бренд
+            <CreateBrand /> 
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+            Создать новый тип
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+            Создать новое устройство
+            <CreateDeviceForm />
+        </TabPanel>
         </div>
-    )
+    );
 }
-
-const mapStateToProps = (state: AppStateType): StateProps => ({
-    devices: state.devices.devices,
-    types: state.typesDevices.typesOfDevices,
-    brands: state.brands.brands
-})
-
-export default connect<StateProps, DispatchProps, OwnProps, AppStateType>(mapStateToProps, {fetchTypesDevices, fetchAllBrands})(AdminPanel)
-
-//fetchTypesDevices, fetchAllBrands, createDevice, createBrand, createType

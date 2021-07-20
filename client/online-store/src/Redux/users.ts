@@ -6,6 +6,8 @@ type InitialStateType = {
     isReg: boolean
     user: any
     error: string | null
+    message: string | null
+    isOpenInfoModal: boolean
 }
 
 let initialState: InitialStateType = {
@@ -13,6 +15,8 @@ let initialState: InitialStateType = {
     isReg: false,
     user: {},
     error: null,
+    message: null,
+    isOpenInfoModal: false
 }
 
 const usersReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
@@ -23,7 +27,7 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
             }
         case 'users/LOGIN': 
             return {
-                ...state, isAuth: true, isReg: true, user: {...action.payload}
+                ...state, isAuth: true, isReg: true, user: {...action.payload}, message: "Добро пожаловать!"
             }
         case 'users/GET_ERROR':
             return {
@@ -31,11 +35,15 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
             }
         case 'users/LOGOUT': 
             return {
-                ...state, isAuth: false, isReg: false, user: {}
+                ...state, isAuth: false, isReg: false, user: {}, message: null, error: null
             }
         case 'users/CHECK_AUTH':
             return {
-                ...state, isAuth: true
+                ...state, isAuth: true, isReg: true,  user: {...action.payload}, message: null
+            }
+        case 'users/TOGGLE_INFO_MESSAGE':
+            return {
+                ...state, isOpenInfoModal: action.payload
             }
         default:
             return state
@@ -47,7 +55,8 @@ export const actions = {
     logout: () => ({type: 'users/LOGOUT'} as const),
     registration: (payload: boolean) => ({type: 'users/REGISTRATION', payload} as const),
     getError: (payload: string | null) => ({type: 'users/GET_ERROR', payload} as const),
-    check: () => ({type: 'users/CHECK_AUTH'} as const)
+    check: (payload: any) => ({type: 'users/CHECK_AUTH', payload} as const),
+    toggleMessage: (payload: boolean) => ({type: 'users/TOGGLE_INFO_MESSAGE', payload} as const),
 }
 
 export const userLogin = (email: string, password: string): ThunkType => {
@@ -64,7 +73,12 @@ export const userLogin = (email: string, password: string): ThunkType => {
 
 export const userLogout = (): ThunkType => {
     return async(dispatch) => {
-        dispatch(actions.logout)
+        try {
+            dispatch(actions.logout)
+            localStorage.clear()
+        } catch (error) {
+            dispatch(actions.getError(error.response.data.message))
+        }
     }
 }
  
@@ -77,8 +91,19 @@ export const userRegistration = (email: string, password: string, name: string):
 
 export const checkUserAuth = (): ThunkType => {
     return async(dispatch) => {
-        await checkAPI()
-        dispatch(actions.check())
+        try {
+            let response = await checkAPI()
+            dispatch(actions.check(response))
+        } catch (error) {
+            dispatch(actions.getError(error.response.data.message))
+        }
+    }
+}
+
+export const toggleInfoMessage = (isOpen: boolean, error: string | null): ThunkType => {
+    return async(dispatch) => {
+        dispatch(actions.toggleMessage(isOpen))
+        dispatch(actions.getError(error))
     }
 }
  

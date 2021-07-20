@@ -67,8 +67,6 @@ export const fetchAllDevices = (typeId: number, limit: number, page: number): Th
 }
 
 export const createDevice = (payload: any): ThunkType => {
-
-    debugger
     return async(dispatch) => {
         try {
             let response = await createDeviceAPI(payload)
@@ -76,7 +74,6 @@ export const createDevice = (payload: any): ThunkType => {
         } catch (error) {
             dispatch(actions.catchError(error.response.data.message))
         }
-        
     }
 }
 
