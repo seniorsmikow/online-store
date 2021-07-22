@@ -5,8 +5,28 @@ import {connect} from 'react-redux'
 import {createDevice} from '../../../Redux/devices'
 import {fetchAllBrands} from '../../../Redux/brands'
 import {fetchTypesDevices} from '../../../Redux/typesDevices'
-import { Formik, Field, Form } from 'formik'
+import { Formik, Form } from 'formik'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import InputLabel from '@material-ui/core/InputLabel'
+import FormControl from '@material-ui/core/FormControl'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import styles from './CreateDevice.module.scss'
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+      width: '70%'
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(4),
+    },
+  }),
+);
 
 interface StateProps {
     devices: Array<devicesType>
@@ -38,6 +58,8 @@ const CreateDeviceForm: React.FC<Props> = ({
         fetchTypesDevices();
     }, [fetchAllBrands, fetchTypesDevices]);
 
+    const classes = useStyles()
+
     return (
         <div className={styles.root}>
             <h1 className={styles.form_h1}>Создание нового товара</h1>
@@ -64,40 +86,50 @@ const CreateDeviceForm: React.FC<Props> = ({
             >
             {({ errors, touched, setFieldValue, values, handleChange }) => (
                 <Form className={styles.form__wrapper}>
-                    <label htmlFor="name">Название устройства</label>
-                    <Field className={styles.form__name_field} id="name" name="name" placeholder="Название устройства" />
+                    
+                    <TextField className={classes.formControl} id="name" name="name" placeholder="Название устройства" variant="filled" onChange={(event) => setFieldValue("name", event.target.value)}/>
+                    
+                    <TextField className={classes.formControl} id="price" type="number" name="price" placeholder="Цена" variant="filled" onChange={(event) => setFieldValue("price", event.target.value)}/>
+                    
+                    <div className={styles.file__input}>
+                        <label htmlFor="file">Выберите изображение</label>
+                        <input  id="file" name="file" type="file" onChange={(event: React.SyntheticEvent<EventTarget>) => {
+                            const target= event.target as HTMLInputElement;
+                            const file: File = (target.files as FileList)[0]
+                            setFieldValue("file", file);
+                        }}/>
+                    </div>
 
-                    <label htmlFor="price">Цена</label>
-                    <Field className={styles.form__price_field} id="price" name="price" placeholder="Цена" type="number"/>
+                    <FormControl className={classes.formControl} variant="filled">
+                        <InputLabel id="brand">Бренд</InputLabel>
+                        <Select
+                            labelId="brand"
+                            id="brand"
+                            name="brandId"
+                            value={values.brandId}
+                            onChange={handleChange}
+                        >
+                            {brands.map(el => <MenuItem key={el.name} value={el.id}>{el.name}</MenuItem>)}
+                        </Select>
+                    </FormControl>
 
-                    <label htmlFor="file">Выберите изображение</label>
-                    <input className={styles.file_input} id="file" name="file" type="file" onChange={(event: React.SyntheticEvent<EventTarget>) => {
-                        const target= event.target as HTMLInputElement;
-                        const file: File = (target.files as FileList)[0]
-                        setFieldValue("file", file);
-                    }}/>
+                    <FormControl className={classes.formControl} variant="filled">
+                    <InputLabel id="type">Тип устройства</InputLabel>
+                        <Select
+                            labelId="type"
+                            id="type"
+                            name="typeId"
+                            value={values.typeId}
+                            onChange={handleChange}
+                        >
+                            {types.map(el => <MenuItem key={el.name} value={el.id}>{el.name}</MenuItem>)}
+                        </Select>
+                    </FormControl>
 
-                    <select
-                        name="typeId"
-                        value={values.typeId}
-                        onChange={handleChange}
-                    >
-                        {types.map(el => <option key={el.name} value={el.id}>{el.name}</option>)}
-                    </select>
-
-                    <select
-                        name="brandId"
-                        value={values.brandId}
-                        onChange={handleChange}
-                    >
-                        {brands.map(el => <option key={el.name} value={el.id}>{el.name}</option>)}
-                    </select>
-
-                    <button type="submit">Создать девайс</button>
+                    <Button type="submit" variant="contained" color="primary">Создать</Button>
                 </Form>
             )}
             </Formik>
-            {errorMessage ? <div>{errorMessage}</div> : <div>Нет ошибок</div>}
         </div>
     )
 }

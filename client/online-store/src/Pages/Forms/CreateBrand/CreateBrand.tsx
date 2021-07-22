@@ -2,7 +2,9 @@ import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import {AppStateType} from '../../../Redux/store'
 import {createBrand, fetchAllBrands} from '../../../Redux/brands'
-import { Formik, Field, Form } from 'formik'
+import { Formik, Form } from 'formik'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
 import styles from './CreateBrand.module.scss'
 
 type PropsType = {
@@ -21,7 +23,7 @@ const CreateBrand: React.FC<PropsType> = props => {
 
     return (
         <div className={styles.root}>
-            <h1>Create BRAND</h1>
+            <h1>Создать новый бренд</h1>
             <Formik
                 initialValues={{
                     name: '',
@@ -30,12 +32,10 @@ const CreateBrand: React.FC<PropsType> = props => {
                     props.createBrand(values)
                 }}
             >
-            {(formProps) => (
-                <Form>
-                    <label htmlFor="name">Name</label>
-                    <Field id="name" name="name" placeholder="Brand" />
-
-                    <button type="submit">Submit</button>
+            {({  handleSubmit, setFieldValue }) => (
+                <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                    <TextField id="name" name="name" placeholder="Бренд" variant="filled" onChange={(event) => setFieldValue("name", event.target.value)}/>
+                    <Button type="submit" variant="contained" color="primary">Создать</Button>
                 </Form>
             )}
             </Formik>

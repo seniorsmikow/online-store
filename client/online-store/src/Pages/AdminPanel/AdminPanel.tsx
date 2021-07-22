@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import CreateDeviceForm from '../Forms/CreateDevice/CreateDevice'
 import CreateBrand from '../Forms/CreateBrand/CreateBrand'
+import CreateType from '../Forms/CreateType/CreateType'
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -89,14 +90,12 @@ export default function NavTabs() {
             </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-            Создать новый бренд
             <CreateBrand /> 
         </TabPanel>
         <TabPanel value={value} index={1}>
-            Создать новый тип
+            <CreateType />
         </TabPanel>
         <TabPanel value={value} index={2}>
-            Создать новое устройство
             <CreateDeviceForm />
         </TabPanel>
         </div>
